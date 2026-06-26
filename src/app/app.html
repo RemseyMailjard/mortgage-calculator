@@ -1,0 +1,120 @@
+<main class="calculator-shell">
+  <section class="hero" aria-labelledby="page-title">
+    <p class="eyebrow">Mortgage planner</p>
+    <h1 id="page-title">Know the monthly number before the offer goes in.</h1>
+    <p class="lede">
+      Adjust the home price, down payment, rate, term, tax, and insurance to estimate
+      principal, interest, and total monthly housing cost.
+    </p>
+  </section>
+
+  <section class="calculator" aria-label="Mortgage calculator">
+    <form class="controls">
+      <label>
+        <span>Home price</span>
+        <strong>{{ formatCurrency(purchasePrice()) }}</strong>
+        <input
+          type="range"
+          min="100000"
+          max="1200000"
+          step="5000"
+          [value]="purchasePrice()"
+          (input)="updatePurchasePrice($event)"
+        />
+      </label>
+
+      <label>
+        <span>Down payment</span>
+        <strong>{{ formatCurrency(downPayment()) }} - {{ formatPercent(downPaymentPercent()) }}</strong>
+        <input
+          type="range"
+          min="0"
+          [max]="purchasePrice()"
+          step="2500"
+          [value]="downPayment()"
+          (input)="updateDownPayment($event)"
+        />
+      </label>
+
+      <div class="split-controls">
+        <label>
+          <span>Interest rate</span>
+          <input
+            type="number"
+            min="0"
+            max="15"
+            step="0.05"
+            [value]="annualRate()"
+            (input)="updateAnnualRate($event)"
+          />
+        </label>
+
+        <label>
+          <span>Loan term</span>
+          <input
+            type="number"
+            min="5"
+            max="40"
+            step="1"
+            [value]="termYears()"
+            (input)="updateTermYears($event)"
+          />
+        </label>
+      </div>
+
+      <div class="split-controls">
+        <label>
+          <span>Monthly taxes</span>
+          <input
+            type="number"
+            min="0"
+            step="25"
+            [value]="propertyTaxMonthly()"
+            (input)="updatePropertyTax($event)"
+          />
+        </label>
+
+        <label>
+          <span>Monthly insurance</span>
+          <input
+            type="number"
+            min="0"
+            step="10"
+            [value]="insuranceMonthly()"
+            (input)="updateInsurance($event)"
+          />
+        </label>
+      </div>
+    </form>
+
+    <aside class="summary" aria-label="Estimated mortgage payment summary">
+      <div class="payment-card">
+        <span>Estimated monthly payment</span>
+        <strong>{{ formatCurrency(estimatedMonthlyPayment()) }}</strong>
+      </div>
+
+      <dl>
+        <div>
+          <dt>Loan amount</dt>
+          <dd>{{ formatCurrency(loanAmount()) }}</dd>
+        </div>
+        <div>
+          <dt>Principal & interest</dt>
+          <dd>{{ formatCurrency(principalAndInterest()) }}</dd>
+        </div>
+        <div>
+          <dt>Taxes & insurance</dt>
+          <dd>{{ formatCurrency(propertyTaxMonthly() + insuranceMonthly()) }}</dd>
+        </div>
+        <div>
+          <dt>Total interest</dt>
+          <dd>{{ formatCurrency(totalInterest()) }}</dd>
+        </div>
+        <div>
+          <dt>Total paid over term</dt>
+          <dd>{{ formatCurrency(totalCost()) }}</dd>
+        </div>
+      </dl>
+    </aside>
+  </section>
+</main>
